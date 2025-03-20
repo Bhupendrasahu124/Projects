@@ -1,4 +1,4 @@
-# LIBRARY   management system
+# LIBRARY MANAGEMENT SYSTEM
 # IMPORTED ALL DATA FROM TABLES USING TABLE DATA IMPORT WIZARD
 # ALTERING IMPORTED DATA AS FOLLOWS ESTABLISHING RELATIONSHIPS BETWEEN EACH TABLE 
 use library
@@ -45,7 +45,7 @@ foreign key (issued_id) references issued_status(issued_id)
 ----------------------------------------------------------------
 -- Data modeling completed now solving some real life issues with theis data
 -- project Tasks
---  create a new book record --('978-1-60129-456-2','To kill a Mockingbird','Classic',6.00,'yes','Harper Lee','J.B. Lippincott & co.')
+-- create a new book record --('978-1-60129-456-2','To kill a Mockingbird','Classic',6.00,'yes','Harper Lee','J.B. Lippincott & co.')
 
 select * from books
 insert into books values('978-1-60129-456-2','To kill a Mockingbird','Classic',6.00,'yes','Harper Lee','J.B. Lippincott & co.')
@@ -83,7 +83,7 @@ group by 1
  from employees e
  join branch b
  on e.emp_id=b.manager_id
- 
+ -- another solution for the same problem
  
  select e.*, b.manager_id, e1.emp_name as manager_namer  
  from employees e 
@@ -96,14 +96,14 @@ on b.manager_id=e1.emp_id
 
 create table Books_having_rental_price_more_than_5
 as select * from books where rental_price>5
--- task - lsit books name  which is not returned yet'
+-- task - list books name  which is not returned yet'
 
 select issued_book_name , count(issued_book_name) from issued_status 
 where issued_id not in (select issued_id from return_status)
 group by 1
 
 use library
--- TAsk -Task 13: 
+-- TAsk  
 -- Identify Members with Overdue Books
 -- rite a query to identify members who have overdue books (assume a 30-day return period). 
 -- Display the member's_id, member's name, book title, issue date, and days overdue.
@@ -134,33 +134,11 @@ ORDER BY 1
  
  
  
-Task 14: Update Book Status on Return
-Write a query to update the status of books in the books table to "Yes" when they are returned (based on entries in the return_status table).
+--Task : Update Book Status on Return
+--Write a query to update the status of books in the books table to "Yes" when they are returned (based on entries in the return_status table).
 update books 
 set status= 'yes'
 where status in (select b.status from books b  join issued_status i on 
 i.issued_book_isbn=b.isbn join return_status r on i.issued_id=r.issued_id  )
-Task 15: Branch Performance Report
-Create a query that generates a performance report for each branch, showing the number of books issued, the number of books returned, and the total revenue generated from book rentals.
-*/
 
-- Task 16: CTAS: Create a Table of Active Members
--- Use the CREATE TABLE AS (CTAS) statement to create a new table active_members containing members who have issued at least one book in the last 2 months.
- Task 17: Find Employees with the Most Book Issues Processed
--- Write a query to find the top 3 employees who have processed the most book issues. Display the employee name, number of books processed, and their branch.
-
-Task 19: Stored Procedure Objective: 
-
-Create a stored procedure to manage the status of books in a library system. 
-
-Description: Write a stored procedure that updates the status of a book in the library based on its issuance. 
-
-The procedure should function as follows: 
-
-The stored procedure should take the book_id as an input parameter. 
-
-The procedure should first check if the book is available (status = 'yes'). 
-
-If the book is available, it should be issued, and the status in the books table should be updated to 'no'. 
-
-If the book is not available (status = 'no'), the procedure should return an error message indicating that the book is currently not available.
+ 
